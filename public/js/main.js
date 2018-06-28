@@ -338,38 +338,30 @@
                 $.ajax({
     
                     type: "POST",
-                    url: "inc/sendEmail.php",
+                    url: "https://docs.google.com/forms/d/e/1FAIpQLSe0smSK2f8ILup4yoR9-if17H70u-LaAb-tyTFdv1svgZajtw/formResponse",
                     data: $(form).serialize(),
                     beforeSend: function() { 
     
                         sLoader.slideDown("slow");
     
                     },
-                    success: function(msg) {
-    
-                        // Message was sent
-                        if (msg == 'OK') {
-                            sLoader.slideUp("slow"); 
+
+                    statusCode: {
+                        0: function() {
+                            //Success message
+                            sLoader.slideUp("slow");
+                            $('.message-warning').fadeOut();
+                            $('#contactForm').fadeOut();
+                            $('.message-success').fadeIn();
+                        },
+                        200: function() {
+                            //Success Message
+                            sLoader.slideUp("slow");
                             $('.message-warning').fadeOut();
                             $('#contactForm').fadeOut();
                             $('.message-success').fadeIn();
                         }
-                        // There was an error
-                        else {
-                            sLoader.slideUp("slow"); 
-                            $('.message-warning').html(msg);
-                            $('.message-warning').slideDown("slow");
-                        }
-    
-                    },
-                    error: function() {
-    
-                        sLoader.slideUp("slow"); 
-                        $('.message-warning').html("Something went wrong. Please try again.");
-                        $('.message-warning').slideDown("slow");
-    
                     }
-    
                 });
             }
     
